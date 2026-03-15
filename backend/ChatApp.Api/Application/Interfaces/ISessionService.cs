@@ -4,13 +4,13 @@ namespace ChatApp.Api.Application.Interfaces;
 
 public interface ISessionService
 {
-    ChatSession CreateSession(ChatUser customer);
+    ChatSession CreateSession(ChatUser user);
 
     ChatSession? GetSession(string sessionId);
 
     IReadOnlyList<ChatSession> GetWaitingSessions();
 
-    ChatSession AgentJoinSession(string sessionId, ChatUser agent);
+    ChatSession JoinSession(string sessionId, ChatUser user);
 
     ChatSession? CloseSession(string sessionId);
 }

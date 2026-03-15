@@ -1,17 +1,28 @@
 using ChatApp.Api.Application.Interfaces;
 using ChatApp.Api.Infrastructure.Interfaces;
 using ChatApp.Api.Models;
+using ChatApp.Api.Models.Enums;
 
 namespace ChatApp.Api.Application.Services;
 
 public class SessionService(ISessionRepository sessionRepository, ILogger<SessionService> logger) : ISessionService
 {
-    public ChatSession CreateSession(ChatUser customer)
+    public ChatSession CreateSession(ChatUser user)
     {
-        var session = new ChatSession { Customer = customer };
+        var session = new ChatSession();
+        
+        if (user.Role == EUserRoles.Agent)
+        {
+            session.AssignAgent(user);
+        }
+        else
+        {
+            session.AssignCustomer(user);
+        }
+
         sessionRepository.Add(session);
 
-        logger.LogInformation("Session {SessionId} created for customer '{CustomerName}'", session.Id, customer.Name);
+        logger.LogInformation("Session {SessionId} created  '{UserName}'", session.Id, user.Name);
 
         return session;
     }
@@ -22,13 +33,21 @@ public class SessionService(ISessionRepository sessionRepository, ILogger<Sessio
     public IReadOnlyList<ChatSession> GetWaitingSessions() =>
         sessionRepository.GetWaiting();
 
-    public ChatSession AgentJoinSession(string sessionId, ChatUser agent)
+    public ChatSession JoinSession(string sessionId, ChatUser user)
     {
         var session = sessionRepository.GetById(sessionId)
             ?? throw new InvalidOperationException($"Session '{sessionId}' not found.");
+        
+        if (user.Role == EUserRoles.Agent)
+        {
+            session.AssignAgent(user);
+        }
+        else
+        {
+            session.AssignCustomer(user);
+        }
 
-        session.AssignAgent(agent);
-        logger.LogInformation("Agent '{AgentName}' joined session {SessionId}", agent.Name, sessionId);
+        logger.LogInformation("'{UserName}' joined session {SessionId}", user.Name, sessionId);
 
         return session;
     }
