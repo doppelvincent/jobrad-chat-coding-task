@@ -4,15 +4,9 @@ namespace ChatApp.Api.Application.Interfaces;
 
 public interface IUserService
 {
-    ChatUser RegisterCustomer(string connectionId, string userName);
-
-    ChatUser RegisterAgent(string connectionId, string agentName);
-
-    ChatUser? GetByConnectionId(string connectionId);
-
     ChatUser? GetByUserId(string userId);
 
-    void RegisterExistingUser(string connectionId, ChatUser user);
+    void RegisterExistingUser(string connectionId, ChatUser user, string sessionId);
 
     void RemoveUser(string connectionId);
 }
