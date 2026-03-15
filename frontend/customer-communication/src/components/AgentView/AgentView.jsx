@@ -3,6 +3,7 @@ import { fetchWaitingSessions, sendMessage } from "../../api.js";
 import { useChatHub } from "../../state/useChatHub.js";
 import { AgentSessionList } from "./AgentSessionList.jsx";
 import { ChatWindow } from "../ChatWindow.jsx";
+import "./AgentView.css";
 
 const AGENT_NAME = "Agent";
 
