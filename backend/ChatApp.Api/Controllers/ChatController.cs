@@ -17,7 +17,7 @@ public class ChatController(
     IUserService userService
     ) : ControllerBase
 {
-    [HttpGet("{sesionId}/chat-history")]
+    [HttpGet("{sessionId}/chat-history")]
     public async Task<IActionResult> GetChatHistory(string sessionId)
     {
         IReadOnlyList<Message> messages = chatService.GetMessagesBySessionId(sessionId);
