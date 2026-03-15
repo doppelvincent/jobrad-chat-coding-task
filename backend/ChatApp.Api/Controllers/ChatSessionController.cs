@@ -10,9 +10,7 @@ namespace ChatApp.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ChatSessionController(
-    ISessionService sessionService,
-    IHubContext<ChatHub> hubContext) : ControllerBase
+public class ChatSessionController(ISessionService sessionService) : ControllerBase
 {
     [HttpPost("create")]
     public IActionResult CreateSession([FromBody] CreateSessionRequest apiRequest)
