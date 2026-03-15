@@ -8,10 +8,12 @@ namespace ChatApp.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ChatSessionController(ISessionService sessionService) : ControllerBase
+public class ChatSessionController(
+    ISessionService sessionService,
+    IUserService userService) : ControllerBase
 {
     [HttpPost("create")]
-    public IActionResult CreateSession([FromBody] CreateSessionRequest apiRequest)
+    public async Task<IActionResult> CreateSession([FromBody] CreateSessionRequest apiRequest)
     {
         var user = new ChatUser
         {
@@ -21,9 +23,11 @@ public class ChatSessionController(ISessionService sessionService) : ControllerB
 
         var session = sessionService.CreateSession(user);
 
+        userService.RegisterExistingUser(apiRequest.ConnectionId, user, session.Id);
+
         return Ok(session);
     }
-    
+
     [HttpGet]
     public IActionResult GetSessions()
     {
@@ -40,7 +44,7 @@ public class ChatSessionController(ISessionService sessionService) : ControllerB
 
         return Ok(session);
     }
-    
+
     [HttpPost("{sessionId}/join")]
     public IActionResult JoinSession([FromBody] JoinSessionRequest apiRequest, string sessionId)
     {
@@ -51,6 +55,9 @@ public class ChatSessionController(ISessionService sessionService) : ControllerB
         };
 
         var updatedSession = sessionService.JoinSession(sessionId, user);
+
+        userService.RegisterExistingUser(apiRequest.ConnectionId, user, sessionId);
+
         return Ok(updatedSession);
     }
 
@@ -60,9 +67,7 @@ public class ChatSessionController(ISessionService sessionService) : ControllerB
         var session = sessionService.CloseSession(sessionId);
 
         if (session is null)
-        {
             return NotFound(new { message = $"Session '{sessionId}' not found." });
-        }
 
         return Ok(session);
     }
