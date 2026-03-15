@@ -20,7 +20,9 @@ public class ChatController(
     [HttpGet("{sesionId}/chat-history")]
     public async Task<IActionResult> GetChatHistory(string sessionId)
     {
-        return Ok();
+        IReadOnlyList<Message> messages = chatService.GetMessagesBySessionId(sessionId);
+
+        return Ok(messages);
     }
     
     [HttpPost("{sessionId}/send-message")]
