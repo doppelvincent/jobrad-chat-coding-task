@@ -1,11 +1,7 @@
 using ChatApp.Api.Application.Interfaces;
 using ChatApp.Api.Controllers.Requests;
-using ChatApp.Api.Hubs;
-using ChatApp.Api.Hubs.Models;
 using ChatApp.Api.Models;
-using ChatApp.Api.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 
 namespace ChatApp.Api.Controllers;
 
