@@ -1,20 +1,25 @@
 using System.Collections.Concurrent;
 using ChatApp.Api.Infrastructure.Interfaces;
 using ChatApp.Api.Models;
-using ChatApp.Api.Models.Enums;
 
 namespace ChatApp.Api.Infrastructure.Repositories;
 
-public class InMemorySessionRepository : ISessionRepository
+public class InMemoryMessageRepository : IMessageRepository
 {
-    private readonly ConcurrentDictionary<string, ChatSession> _sessions = new();
+    private readonly ConcurrentDictionary<string, List<Message>> _messagesBySession = new();
 
-    public void Add(ChatSession session) =>
-        _sessions[session.Id] = session;
+    public void Add(Message message)
+    {
+        var messages = _messagesBySession.GetOrAdd(message.SessionId, _ => []);
 
-    public ChatSession? GetById(string sessionId) =>
-        _sessions.TryGetValue(sessionId, out var session) ? session : null;
+        lock (messages)
+        {
+            messages.Add(message);
+        }
+    }
 
-    public IReadOnlyList<ChatSession> GetWaiting() =>
-        _sessions.Values.Where(s => s.Status == ESessionStatus.Waiting).ToList().AsReadOnly();
+    public IReadOnlyList<Message> GetBySessionId(string sessionId) =>
+        _messagesBySession.TryGetValue(sessionId, out var messages)
+            ? messages.AsReadOnly()
+            : [];
 }
