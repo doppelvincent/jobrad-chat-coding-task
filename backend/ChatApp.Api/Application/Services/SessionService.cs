@@ -1,11 +1,14 @@
 using ChatApp.Api.Application.Interfaces;
+using ChatApp.Api.Hubs;
+using ChatApp.Api.Hubs.Models;
 using ChatApp.Api.Infrastructure.Interfaces;
 using ChatApp.Api.Models;
 using ChatApp.Api.Models.Enums;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ChatApp.Api.Application.Services;
 
-public class SessionService(ISessionRepository sessionRepository, ILogger<SessionService> logger) : ISessionService
+public class SessionService(IHubContext<ChatHub> hubContext, ISessionRepository sessionRepository, ILogger<SessionService> logger) : ISessionService
 {
     public ChatSession CreateSession(ChatUser user)
     {
@@ -41,6 +44,7 @@ public class SessionService(ISessionRepository sessionRepository, ILogger<Sessio
         if (user.Role == EUserRoles.Agent)
         {
             session.AssignAgent(user);
+            hubContext.Clients.Group(sessionId).SendAsync(EventTypes.AgentJoin, user);
         }
         else
         {
