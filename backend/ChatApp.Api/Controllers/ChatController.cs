@@ -47,7 +47,7 @@ public class ChatController(
             Sender = user,
         };
 
-        chatService.SendMessage(message);
+        await chatService.SendMessage(message);
 
         return Ok();
     }
