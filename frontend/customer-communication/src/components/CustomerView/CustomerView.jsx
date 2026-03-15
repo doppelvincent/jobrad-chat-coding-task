@@ -3,6 +3,7 @@ import {sendMessage} from "../../api.js";
 import {useChatHub} from "../../state/useChatHub.js";
 import {CustomerNameForm} from "./CustomerNameForm.jsx";
 import {ChatWindow} from "../ChatWindow.jsx";
+import "./CustomerView.css";
 
 export function CustomerView() {
     const [name, setName] = useState("");
