@@ -4,5 +4,5 @@ namespace ChatApp.Api.Application.Interfaces;
 
 public interface IChatService
 {
-    void SendMessage(Message message);
+    void SendMessage(Message message, string sessionId);
 }
