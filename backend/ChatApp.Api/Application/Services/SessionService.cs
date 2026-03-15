@@ -59,6 +59,7 @@ public class SessionService(IHubContext<ChatHub> hubContext, ISessionRepository 
     public ChatSession? CloseSession(string sessionId)
     {
         var session = sessionRepository.GetById(sessionId);
+
         if (session is null)
             return null;
 
