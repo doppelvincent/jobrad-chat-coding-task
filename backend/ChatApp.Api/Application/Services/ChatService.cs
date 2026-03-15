@@ -12,7 +12,7 @@ public class ChatService(IHubContext<ChatHub> hubContext, IMessageRepository mes
     public IReadOnlyList<Message> GetMessagesBySessionId(string sessionId) =>
         messageRepository.GetBySessionId(sessionId);
 
-    public async Task SendMessage(Message message)
+    public void SendMessage(Message message)
     {
         var session = sessionRepository.GetById(message.SessionId)
             ?? throw new InvalidOperationException($"Session '{message.SessionId}' not found.");
@@ -20,6 +20,6 @@ public class ChatService(IHubContext<ChatHub> hubContext, IMessageRepository mes
         session.AddMessage(message);
         messageRepository.Add(message);
 
-        await hubContext.Clients.Group(message.SessionId).SendAsync(EventTypes.ReceiveMessage, message);
+        hubContext.Clients.Group(message.SessionId).SendAsync(EventTypes.ReceiveMessage, message);
     }
 }

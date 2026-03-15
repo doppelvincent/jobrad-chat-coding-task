@@ -6,5 +6,5 @@ public interface IChatService
 {
     IReadOnlyList<Message> GetMessagesBySessionId(string sessionId);
 
-    Task SendMessage(Message message);
+    void SendMessage(Message message);
 }
