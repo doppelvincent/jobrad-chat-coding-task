@@ -10,7 +10,7 @@ The backend is written in C# using .NET9 Framework.
 
 ## frontend
 The frontend is built using React vite as a single page application.
-It will be running on localhot in port 5174
+It will be running on localhost in port 5174
 
 http://localhost:5174 for the customer view
 http://localhost:5174/agent for the agent view
