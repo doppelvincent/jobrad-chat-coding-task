@@ -14,6 +14,9 @@ public class InMemoryUserRepository : IUserRepository
     public ChatUser? GetByConnectionId(string connectionId) =>
         _users.TryGetValue(connectionId, out var user) ? user : null;
 
+    public ChatUser? GetByUserId(string userId) =>
+        _users.Values.FirstOrDefault(u => u.Id == userId);
+
     public void Remove(string connectionId) =>
         _users.TryRemove(connectionId, out _);
 }

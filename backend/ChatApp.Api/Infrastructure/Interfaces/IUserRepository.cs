@@ -8,5 +8,7 @@ public interface IUserRepository
 
     ChatUser? GetByConnectionId(string connectionId);
 
+    ChatUser? GetByUserId(string userId);
+
     void Remove(string connectionId);
 }
