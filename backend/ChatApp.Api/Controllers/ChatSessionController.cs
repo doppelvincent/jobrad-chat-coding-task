@@ -1,6 +1,7 @@
 using ChatApp.Api.Application.Interfaces;
+using ChatApp.Api.Controllers.Requests;
 using ChatApp.Api.Hubs;
-using ChatApp.Api.Hubs.Models;
+using ChatApp.Api.Models;
 using ChatApp.Api.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -13,6 +14,20 @@ public class ChatSessionController(
     ISessionService sessionService,
     IHubContext<ChatHub> hubContext) : ControllerBase
 {
+    [HttpPost("create")]
+    public IActionResult CreateSession([FromBody] CreateSessionRequest apiRequest)
+    {
+        var user = new ChatUser
+        {
+            Name = apiRequest.Name,
+            Role = apiRequest.IsAgent ? EUserRoles.Agent : EUserRoles.Customer,
+        };
+
+        var session = sessionService.CreateSession(user);
+
+        return Ok(session);
+    }
+    
     [HttpGet]
     public IActionResult GetSessions()
     {
@@ -30,22 +45,28 @@ public class ChatSessionController(
         return Ok(session);
     }
     
-    [HttpPost("{sessionId}/close")]
-    public async Task<IActionResult> JoinSession(string sessionId)
+    [HttpPost("{sessionId}/join")]
+    public IActionResult JoinSession([FromBody] JoinSessionRequest apiRequest, string sessionId)
     {
-        return Ok();
+        var user = new ChatUser
+        {
+            Name = apiRequest.Name,
+            Role = apiRequest.IsAgent ? EUserRoles.Agent : EUserRoles.Customer,
+        };
+
+        var updatedSession = sessionService.JoinSession(sessionId, user);
+        return Ok(updatedSession);
     }
 
     [HttpPost("{sessionId}/close")]
-    public async Task<IActionResult> CloseSession(string sessionId)
+    public IActionResult CloseSession(string sessionId)
     {
         var session = sessionService.CloseSession(sessionId);
 
         if (session is null)
+        {
             return NotFound(new { message = $"Session '{sessionId}' not found." });
-
-        await hubContext.Clients.Group(sessionId)
-            .SendAsync(EventTypes.SessionClosed, sessionId);
+        }
 
         return Ok(session);
     }
