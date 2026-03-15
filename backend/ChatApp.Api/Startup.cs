@@ -25,7 +25,7 @@ public class Startup(IConfiguration configuration)
             options.AddDefaultPolicy(policy =>
             {
                 var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
-                    ?? ["http://localhost:5173"];
+                    ?? ["http://localhost:5174"];
 
                 policy.WithOrigins(allowedOrigins)
                       .AllowAnyHeader()
