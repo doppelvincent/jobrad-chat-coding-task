@@ -33,6 +33,12 @@ public class UserService(IUserRepository userRepository, ILogger<UserService> lo
     public ChatUser? GetByUserId(string userId) =>
         userRepository.GetByUserId(userId);
 
+    public void RegisterExistingUser(string connectionId, ChatUser user)
+    {
+        userRepository.Add(connectionId, user);
+        logger.LogInformation("User '{UserName}' registered on connection {ConnectionId}", user.Name, connectionId);
+    }
+
     public void RemoveUser(string connectionId)
     {
         userRepository.Remove(connectionId);

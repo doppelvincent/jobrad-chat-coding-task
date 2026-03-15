@@ -12,5 +12,7 @@ public interface IUserService
 
     ChatUser? GetByUserId(string userId);
 
+    void RegisterExistingUser(string connectionId, ChatUser user);
+
     void RemoveUser(string connectionId);
 }
