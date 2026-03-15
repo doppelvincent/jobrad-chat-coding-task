@@ -6,7 +6,7 @@ public class ChatSession
 {
     public string Id { get; init; } = Guid.NewGuid().ToString();
 
-    public required ChatUser Customer { get; init; }
+    public ChatUser? Customer { get; private set; }
 
     public ChatUser? Agent { get; private set; }
 
@@ -21,6 +21,12 @@ public class ChatSession
     public void AssignAgent(ChatUser agent)
     {
         Agent = agent;
+        Status = ESessionStatus.Active;
+    }
+
+    public void AssignCustomer(ChatUser customer)
+    {
+        Customer = customer;
         Status = ESessionStatus.Active;
     }
 
