@@ -34,8 +34,6 @@ public class Startup(IConfiguration configuration)
             });
         });
         
-        services.AddSingleton<IChatHub, ChatHub>();
-
         services.AddSingleton<IMessageRepository, InMemoryMessageRepository>();
         services.AddSingleton<IUserRepository, InMemoryUserRepository>();
         services.AddSingleton<ISessionRepository, InMemorySessionRepository>();
