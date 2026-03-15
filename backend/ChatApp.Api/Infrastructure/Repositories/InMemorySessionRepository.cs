@@ -16,5 +16,5 @@ public class InMemorySessionRepository : ISessionRepository
         _sessions.TryGetValue(sessionId, out var session) ? session : null;
 
     public IReadOnlyList<ChatSession> GetAll() =>
-        _sessions.Values.Where(session => session.Status != ESessionStatus.Closed).ToList().AsReadOnly();
+        _sessions.Values.ToList().AsReadOnly();
 }
