@@ -27,10 +27,11 @@ public class UserService(IUserRepository userRepository, ILogger<UserService> lo
         return agent;
     }
 
-    public ChatUser? GetUser(string connectionId)
-    {
-        return userRepository.GetByConnectionId(connectionId);
-    }
+    public ChatUser? GetByConnectionId(string connectionId) =>
+        userRepository.GetByConnectionId(connectionId);
+
+    public ChatUser? GetByUserId(string userId) =>
+        userRepository.GetByUserId(userId);
 
     public void RemoveUser(string connectionId)
     {

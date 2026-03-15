@@ -7,13 +7,13 @@ namespace ChatApp.Api.Application.Services;
 
 public class ChatService(IChatHub chatHub, IMessageRepository messageRepository, ISessionRepository sessionRepository) : IChatService
 {
-    public void SendMessage(Message message, string sessionId)
+    public void SendMessage(Message message)
     {
-        var session = sessionRepository.GetById(sessionId) ?? throw new InvalidOperationException($"Session '{sessionId}' not found.");
+        var session = sessionRepository.GetById(message.SessionId) ?? throw new InvalidOperationException($"Session '{message.SessionId}' not found.");
 
         session.AddMessage(message);
         messageRepository.Add(message);
 
-        chatHub.SendMessage(sessionId, message.Content);
+        chatHub.SendMessage(message.SessionId, message);
     }
 }

@@ -8,7 +8,9 @@ public interface IUserService
 
     ChatUser RegisterAgent(string connectionId, string agentName);
 
-    ChatUser? GetUser(string connectionId);
+    ChatUser? GetByConnectionId(string connectionId);
+
+    ChatUser? GetByUserId(string userId);
 
     void RemoveUser(string connectionId);
 }

@@ -1,3 +1,5 @@
+using ChatApp.Api.Models;
+
 namespace ChatApp.Api.Hubs.Interfaces;
 
 public interface IChatHub
@@ -10,5 +12,5 @@ public interface IChatHub
 
     Task JoinSession(string sessionId);
 
-    Task SendMessage(string sessionId, string content);
+    Task SendMessage(string sessionId, Message message);
 }
