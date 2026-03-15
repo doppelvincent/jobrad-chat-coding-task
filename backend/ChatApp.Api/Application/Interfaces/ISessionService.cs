@@ -12,7 +12,5 @@ public interface ISessionService
 
     ChatSession AgentJoinSession(string sessionId, ChatUser agent);
 
-    Message AddMessage(string sessionId, ChatUser sender, string content);
-
     ChatSession? CloseSession(string sessionId);
 }
