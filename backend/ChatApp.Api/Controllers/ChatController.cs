@@ -18,7 +18,7 @@ public class ChatController(
     ) : ControllerBase
 {
     [HttpGet("{sessionId}/chat-history")]
-    public async Task<IActionResult> GetChatHistory(string sessionId)
+    public IActionResult GetChatHistory(string sessionId)
     {
         IReadOnlyList<Message> messages = chatService.GetMessagesBySessionId(sessionId);
 
@@ -47,7 +47,7 @@ public class ChatController(
             Sender = user,
         };
 
-        await chatService.SendMessage(message);
+        chatService.SendMessage(message);
 
         return Ok();
     }
