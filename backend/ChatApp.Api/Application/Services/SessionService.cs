@@ -44,7 +44,7 @@ public class SessionService(IHubContext<ChatHub> hubContext, ISessionRepository 
         if (user.Role == EUserRoles.Agent)
         {
             session.AssignAgent(user);
-            hubContext.Clients.Group(sessionId).SendAsync(EventTypes.AgentJoin, user);
+            hubContext.Clients.Group(sessionId).SendAsync(EventTypes.AgentJoin, session);
         }
         else
         {
