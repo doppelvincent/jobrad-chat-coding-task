@@ -6,7 +6,7 @@ public class ChatUser
 {
     public string Id { get; init; } = Guid.NewGuid().ToString();
 
-    public string Name { get; init; } = string.Empty;
+    public required string Name { get; init; }
 
-    public EUserRoles Role { get; init; }
+    public required EUserRoles Role { get; init; }
 }
