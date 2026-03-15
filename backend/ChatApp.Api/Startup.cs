@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using ChatApp.Api.Application.Interfaces;
 using ChatApp.Api.Application.Services;
 using ChatApp.Api.Hubs;
+using ChatApp.Api.Hubs.Interfaces;
 using ChatApp.Api.Infrastructure.Interfaces;
 using ChatApp.Api.Infrastructure.Repositories;
 
@@ -32,10 +33,14 @@ public class Startup(IConfiguration configuration)
                       .AllowCredentials();
             });
         });
+        
+        services.AddSingleton<IChatHub, ChatHub>();
 
+        services.AddSingleton<IMessageRepository, InMemoryMessageRepository>();
         services.AddSingleton<IUserRepository, InMemoryUserRepository>();
         services.AddSingleton<ISessionRepository, InMemorySessionRepository>();
 
+        services.AddSingleton<IChatService, ChatService>();
         services.AddSingleton<IUserService, UserService>();
         services.AddSingleton<ISessionService, SessionService>();
     }
