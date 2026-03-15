@@ -9,38 +9,11 @@ namespace ChatApp.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class SessionsController(
-    ISessionService sessionService,
-    IHubContext<ChatHub> hubContext) : ControllerBase
+public class ChatController() : ControllerBase
 {
-    [HttpGet]
-    public IActionResult GetSessions([FromQuery] ESessionStatus? status)
-    {
-        return Ok(sessionService.GetWaitingSessions());
-    }
-
-    [HttpGet("{sessionId}")]
-    public IActionResult GetSession(string sessionId)
-    {
-        var session = sessionService.GetSession(sessionId);
-
-        if (session is null)
-            return NotFound(new { message = $"Session '{sessionId}' not found." });
-
-        return Ok(session);
-    }
-
     [HttpPost("{sessionId}/close")]
-    public async Task<IActionResult> CloseSession(string sessionId)
+    public async Task<IActionResult> SendMessage([FromBody] object message)
     {
-        var session = sessionService.CloseSession(sessionId);
-
-        if (session is null)
-            return NotFound(new { message = $"Session '{sessionId}' not found." });
-
-        await hubContext.Clients.Group(sessionId)
-            .SendAsync(EventTypes.SessionClosed, sessionId);
-
-        return Ok(session);
+        return Ok();
     }
 }
