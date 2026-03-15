@@ -1,10 +1,8 @@
 using ChatApp.Api.Application.Interfaces;
 using ChatApp.Api.Controllers.Requests;
-using ChatApp.Api.Hubs;
 using ChatApp.Api.Models;
 using ChatApp.Api.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 
 namespace ChatApp.Api.Controllers;
 
@@ -29,7 +27,7 @@ public class ChatSessionController(ISessionService sessionService) : ControllerB
     [HttpGet]
     public IActionResult GetSessions()
     {
-        return Ok(sessionService.GetWaitingSessions());
+        return Ok(sessionService.GetAll());
     }
 
     [HttpGet("{sessionId}")]

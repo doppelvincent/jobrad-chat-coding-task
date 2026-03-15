@@ -8,7 +8,7 @@ public interface ISessionService
 
     ChatSession? GetSession(string sessionId);
 
-    IReadOnlyList<ChatSession> GetWaitingSessions();
+    IReadOnlyList<ChatSession> GetAll();
 
     ChatSession JoinSession(string sessionId, ChatUser user);
 

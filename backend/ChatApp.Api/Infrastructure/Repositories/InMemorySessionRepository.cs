@@ -15,6 +15,6 @@ public class InMemorySessionRepository : ISessionRepository
     public ChatSession? GetById(string sessionId) =>
         _sessions.TryGetValue(sessionId, out var session) ? session : null;
 
-    public IReadOnlyList<ChatSession> GetWaiting() =>
-        _sessions.Values.Where(s => s.Status == ESessionStatus.Waiting).ToList().AsReadOnly();
+    public IReadOnlyList<ChatSession> GetAll() =>
+        _sessions.Values.ToList().AsReadOnly();
 }

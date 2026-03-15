@@ -30,8 +30,8 @@ public class SessionService(ISessionRepository sessionRepository, ILogger<Sessio
     public ChatSession? GetSession(string sessionId) =>
         sessionRepository.GetById(sessionId);
 
-    public IReadOnlyList<ChatSession> GetWaitingSessions() =>
-        sessionRepository.GetWaiting();
+    public IReadOnlyList<ChatSession> GetAll() =>
+        sessionRepository.GetAll();
 
     public ChatSession JoinSession(string sessionId, ChatUser user)
     {

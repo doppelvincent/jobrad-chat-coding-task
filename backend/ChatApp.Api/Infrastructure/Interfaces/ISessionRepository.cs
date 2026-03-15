@@ -8,5 +8,5 @@ public interface ISessionRepository
 
     ChatSession? GetById(string sessionId);
 
-    IReadOnlyList<ChatSession> GetWaiting();
+    IReadOnlyList<ChatSession> GetAll();
 }
